@@ -70,12 +70,16 @@ public class Prompt
                 System.out.println("A média é:" + doAvg.calc());
 
                 break;
+
                 case 8:
                 System.out.println("Tamanho da arvore é " + arvore.getLength(arvore.root,0));
-                reader.next();
+                break;
+
+                case 9:
+                System.out.println("Bye! bye!");
                 break;
             }
-        } while (key != 9 );
+        } while (key != 9);
     }
 
 }
