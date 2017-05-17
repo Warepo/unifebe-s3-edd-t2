@@ -1,18 +1,15 @@
-﻿public class Averager
+public class Averager
 {
-    public int numero, quantidade;
+    public int sum, qty;
 
     public Averager()
     {
-        numero = 0;
-        quantidade = 0;
+        this.sum = 0;
+        this.qty = 0;
     }
 
-    public int fazMedia()
+    public int calc()
     {
-        if (quantidade != 0)
-            return numero/quantidade;
-        else
-            return 0;
+        return this.qty != 0 ? (this.sum / this.qty) : 0;
     }
 }

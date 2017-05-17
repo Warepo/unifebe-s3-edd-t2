@@ -1,4 +1,4 @@
-﻿class Node
+public class Node
 {
     int index, data;
     Node sonRight, sonLeft;
@@ -10,44 +10,44 @@
         this.setSonRight(null);
         this.setSonLeft(null);
     }
-    
+
     public void setSonRight(Node son)
     {
         this.sonRight = son;
     }
-    
+
     public void setSonLeft(Node son)
     {
         this.sonLeft = son;
     }
-    
-    public void setIndex(int id)
+
+    public void setIndex(int index)
     {
-        this.index = id;
+        this.index = index;
     }
-    
+
     public void setData(int data)
     {
         this.data = data;
     }
-    
+
     public Node getSonRight()
     {
-        return sonRight;
+        return this.sonRight;
     }
-    
+
     public Node getSonLeft()
     {
-        return sonLeft;
+        return this.sonLeft;
     }
-    
+
     public int getIndex()
     {
-        return index;
+        return this.index;
     }
-    
+
     public int getData()
     {
-        return data;
+        return this.data;
     }
 }

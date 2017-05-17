@@ -1,189 +1,205 @@
-﻿class Tree
+import java.util.Scanner;
+
+public class Tree
 {
     public Node root;
-    
+
     public Tree()
     {
-        root = null;
+        this.root = null;
     }
 
-    public void construir(Node pai,int lado,int num,int mat,int level)
+    public void construir(Node parent, int lado, int num, int mat, int level)
     {
-        int numero = 0,matricula = 0;
-        // lado 0 - esquerda...1 - direita
-        Node aux = new Node(num,mat);
-        if (pai == null)
+        // lado 0 - esquerda
+        // lado 1 - direita
+
+        int data = 0;
+        int matricula = 0;
+        Node aux = new Node(num, mat);
+
+        String question = "Informe ";
+
+        if (parent == null)
         {
-        System.out.println("Informe a root");
+            question += "a root";
+        }
+        else
+        {
+            question += (lado == 0 ? "o lado Esquerdo" : "o lado Direito") + " do " + num;
+        }
+
+        Scanner reader = new Scanner(System.in);
+
+        System.out.println(question);
         matricula = Integer.parseInt(reader.next());
-        System.out.println("Informe a Idade");
-        numero = Integer.parseInt(reader.next());
-        }
-        else
-        {
-        if (lado == 0)
-        {
-            System.out.println("Informe o lado Esquedo do " + num);
-            matricula = Integer.parseInt(reader.next());
-            System.out.println("Informe a Idade");
-            numero = Integer.parseInt(reader.next());
-        }
-        else
-        {
-            System.out.println("Informe o lado Direito do " + num);
-            matricula = Integer.parseInt(reader.next());
-            System.out.println("Informe a Idade");
-            numero = Integer.parseInt(reader.next());
-        }
-        
 
-        }
-        if (numero != 0)
-        {
-        aux = coloca(pai, numero, matricula, lado);
-        level++;
-        if (level < 3)
-        {
-            if (pai == null)
-            System.out.println("=======LADO DIREITO=======");
-            construir(aux, 1, numero,matricula, level);
-            if (pai == null)
-            System.out.println("=======LADO ESQUERDO=======");
-            construir(aux, 0, numero,matricula , level);
-        }
-        level--;
+        System.out.println("Informe a Idade: ");
+        data = Integer.parseInt(reader.next());
 
-        }
+        if (data != 0)
+        {
+            aux = coloca(parent, data, matricula, lado);
+            level++;
+            if (level < 3)
+            {
+                if (parent == null)
+                System.out.println("=======LADO DIREITO=======");
 
+                construir(aux, 1, data, matricula, level);
+
+                if (parent == null)
+                System.out.println("=======LADO ESQUERDO=======");
+
+                construir(aux, 0, data, matricula , level);
+            }
+            level--;
+        }
     }
-    Node coloca(Node atual,int quem,int matricula,int lado)
+
+    Node coloca(Node atual, int quem, int matricula, int lado)
     {
-        Node novo = new Node(quem,matricula);
+        Node novo = new Node(quem, matricula);
+
         if (atual == null)
         {
-        root = novo;
+            this.root = novo;
         }
         else
         {
-        if (lado == 0)
-        {
-            atual.setSonLeft(novo);
+            if (lado == 0)
+            {
+                atual.setSonLeft(novo);
+            }
+            else
+            {
+                atual.setSonRight(novo);
+            }
         }
-        else
-        {
-            atual.setSonRight(novo);
-        }
-        }
+
         return novo;
     }
-    public void  lista(Node pai,int lado,int sentido,int nivel)
+
+    public void lista(Node parent, int lado, int sentido, int nivel)
     {
-        if (pai != null)
+        if (parent != null)
         {
-        string espaco = "";
-        for (int i = 0; i < nivel; i++)
-        {
-            espaco += "     ";
-        }
-        /*==legenda==*/
-        //lado 0 - esquerda...1 - direita
-        //sentido 0 - de cima pra baixo...1 - de baixo pra cima
-        if (sentido == 0)
-        {
-            System.out.println(espaco +=pai.getNum());
-        }
+            String espaco = "";
 
-        nivel++;
-        if (lado == 0)
-        {            
-            lista(pai.getFilE(), 0, sentido,nivel);
+            for (int i = 0; i < nivel; i++)
+            {
+                espaco += "     ";
+            }
 
-            lista(pai.getFilD(), 1, sentido,nivel);
+            // lado 0 - esquerda
+            // lado 1 - direita
+            // sentido 0 - cima pra baixo
+            // sentido 1 - baixo pra cima
 
-        }
-        else
-        {
-            lista(pai.getFilD(), 0, sentido, nivel);
+            if (sentido == 0)
+            {
+                System.out.println(espaco +=parent.getIndex());
+            }
 
-            lista(pai.getFilE(), 1, sentido, nivel);
+            nivel++;
 
-        }
-        nivel--;
-        if (sentido == 1)
-        {
-            
-            System.out.println(espaco + pai.getNum());
-            
-        }
+            if (lado == 0)
+            {
+                lista(parent.getSonLeft(), 0, sentido, nivel);
+                lista(parent.getSonRight(), 1, sentido, nivel);
+            }
+            else
+            {
+                lista(parent.getSonRight(), 0, sentido, nivel);
+                lista(parent.getSonLeft(), 1, sentido, nivel);
+            }
+
+            nivel--;
+
+            if (sentido == 1)
+            {
+
+                System.out.println(espaco + parent.getIndex());
+
+            }
 
         }
     }
-    public Boolean busca(Node pai,int numero)
+
+    public Boolean busca(Node parent, int data)
     {
-        if (pai != null)
+        if (parent != null)
         {
-        if (pai.getData() == numero)
-        {
-            return true;
-        }
-        if (busca(pai.getFilE(), numero))
-        {
-            return true;
-        }
-        if (busca(pai.getFilD(), numero))
-        {
-            return true;
-        }                
+            if (parent.getData() == data)
+            {
+                return true;
+            }
+            if (busca(parent.getSonLeft(), data))
+            {
+                return true;
+            }
+            if (busca(parent.getSonRight(), data))
+            {
+                return true;
+            }
         }
         return false;
     }
-    public int retornaIdadeDaMatricula(Node pai, int numero)
+
+    public int retornaIdadeDaMatricula(Node parent, int data)
     {
         int aux;
-        if (pai != null)
+        if (parent != null)
         {
-        if (pai.getData() == numero)
-        {
-            return pai.getNum();
-        }
-        aux = retornaIdadeDaMatricula(pai.getFilE(), numero);
-        if (aux != 0)
-            return aux;
-        aux = retornaIdadeDaMatricula(pai.getFilD(), numero);
-        if (aux != 0)
-            return aux;
+            if (parent.getData() == data)
+            {
+                return parent.getIndex();
+            }
+
+            aux = retornaIdadeDaMatricula(parent.getSonLeft(), data);
+
+            if (aux != 0)
+                return aux;
+
+            aux = retornaIdadeDaMatricula(parent.getSonRight(), data);
+
+            if (aux != 0)
+                return aux;
         }
         return 0;
     }
-    public int tamanhoTree(Node pai,int nivel)
+
+    public int getLength(Node parent, int nivel)
     {
-        if (pai != null)
+        if (parent != null)
         {
-        int nivel1 = 0;
-        nivel1 = nivel + 1; ;
+            int nivel1 = 0;
+            nivel1 = nivel + 1;
 
-        nivel = tamanhoTree(pai.getFilD(), nivel1);
-        if (nivel < nivel1)
+            nivel = getLength(parent.getSonRight(), nivel1);
+
+            if (nivel < nivel1)
             nivel1 = nivel;
 
-        nivel = tamanhoTree(pai.getFilE(), nivel1);
-        if (nivel < nivel1)
+            nivel = getLength(parent.getSonLeft(), nivel1);
+
+            if (nivel < nivel1)
             nivel1 = nivel;
-        return nivel;
+
+            return nivel;
         }
         return nivel;
     }
 
-    public Averager TreeMedia(Node pai, Averager media)
+    public Averager getAverage(Node parent, Averager avg)
     {
-        if (pai != null)
+        if (parent != null)
         {
-            media.numero += pai.getNum();
-            media.quantidade++;
-            media = TreeMedia(pai.getFilE(), media);
-            media = TreeMedia(pai.getFilD(), media);
-            return media;
+            avg.sum += parent.getIndex();
+            avg.qty++;
+            avg = getAverage(parent.getSonLeft(), avg);
+            avg = getAverage(parent.getSonRight(), avg);
         }
-        return media;
+        return avg;
     }
 }
